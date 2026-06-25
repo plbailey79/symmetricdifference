@@ -105,7 +105,7 @@
 
     .banner {
       margin: 2rem auto 2.5rem;
-      max-width: 900px;
+      max-width: 500px;
       border-radius: var(--radius-lg);
       overflow: hidden;
       border: 1px solid var(--border);
@@ -267,6 +267,39 @@
       padding-left: 0.7rem;
       margin-top: 0.5rem;
     }
+	
+.sound-card {
+    background: #de81ff;
+    border: 1px solid #cdd3ff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    margin: 0 0.4rem;
+}
+
+.sound-card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.sound-icon {
+    font-size: 1.2rem;
+}
+
+.sound-link {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #2a3faa;
+    text-decoration: none;
+}
+
+	}
+
   </style>
 </head>
 
@@ -285,10 +318,39 @@
       <p class="tagline">
         Advocating for abstraction. Building better representations. Listening for structure in sound.
       </p>
+<!-- TOP-LINKS: follower-exclusive + unreleased audio -->
+<div style="text-align:center; margin-top:0.8rem; font-size:0.9rem;">
+
+  <!-- Card 1: Follower-Exclusive -->
+  <a href="https://soundcloud.com/symmetricdifference/kometenmelodie" 
+     target="_blank" rel="noopener"
+     style="text-decoration:none;">
+    <div class="sound-card">
+      <span class="sound-icon">⭐</span>
+      <span class="sound-link">Follower Exclusive: Kometenmelodie</span>
+    </div>
+  </a>
+
+  <!-- Card 2: Unreleased Audio (Discipline) -->
+  <div class="sound-card"
+       onclick="document.getElementById('unreleased-audio').play();">
+    <span class="sound-icon">🔊</span>
+    <span class="sound-link">Unreleased Audio: Discipline</span>
+  </div>
+
+  <!-- Hidden audio element -->
+  <audio id="unreleased-audio">
+    <source src="./audio/Discipline_20260518a.mp3" type="audio/mpeg">
+  </audio>
+
+</div>
+<!-- END TOP-LINKS -->
+
+
     </header>
 
     <div class="banner">
-      <img src="./imag/SymmetricFractal_20251124.jpg" alt="Symmetric Difference fractal banner">
+      <img src="./image/MainImage_20260625.jpg" alt="Symmetric Difference Lives!">
     </div>
 
     <main class="layout">

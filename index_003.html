@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Symmetric Difference</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="./SymmetricDifferenceLogo.ico">
+
+  <style>
+    :root {
+      --bg: #050510;
+      --bg-alt: #0c0c1a;
+      --fg: #f5f5ff;
+      --accent: #5fd0ff;
+      --accent-soft: #b0e4ff33;
+      --muted: #b8b8d8;
+      --border: #2a2a4a;
+      --link: #7fd0ff;
+      --link-hover: #ffe27f;
+      --shadow-soft: 0 18px 40px rgba(0,0,0,0.55);
+      --radius-lg: 18px;
+      --radius-md: 10px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #181830 0, #050510 55%, #020208 100%);
+      color: var(--fg);
+      line-height: 1.6;
+      padding: 1.5rem;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+      transition: color 0.15s ease, text-shadow 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--link-hover);
+      text-shadow: 0 0 6px rgba(255, 226, 127, 0.6);
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .title-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.9rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: linear-gradient(90deg, #101028, #181832);
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .title-mark span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(95, 208, 255, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 2.8rem);
+      margin-top: 1rem;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #e5e5ff;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0.3rem auto 0;
+    }
+
+    .tagline {
+      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      color: #d0d0ff;
+      font-style: italic;
+    }
+
+    .banner {
+      margin: 2rem auto 2.5rem;
+      max-width: 900px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      background: radial-gradient(circle at top, #26264a, #050510);
+    }
+
+    .banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 800px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: linear-gradient(145deg, #0b0b18, #111126);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 1.4rem 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    }
+
+    .card + .card {
+      margin-top: 1rem;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #dcdcff;
+      margin-bottom: 0.6rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      background: radial-gradient(circle at top left, #26264a33, transparent);
+    }
+
+    .pill span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .lead {
+      font-size: 0.95rem;
+      margin-bottom: 0.7rem;
+      color: #e0e0ff;
+    }
+
+    .list {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+
+    .list li {
+      margin: 0.25rem 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .list li strong {
+      color: #f0f0ff;
+      font-weight: 600;
+    }
+
+    .link-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+    }
+
+    @media (max-width: 600px) {
+      .link-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .link-tile {
+      display: block;
+      padding: 0.7rem 0.8rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, var(--accent-soft), #090918);
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .link-tile span.label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.1rem;
+    }
+
+    .link-tile span.name {
+      display: block;
+      color: #f5f5ff;
+      font-weight: 600;
+    }
+
+    .link-tile span.note {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer a {
+      font-size: 0.8rem;
+    }
+
+    .inline-links {
+      margin-top: 0.4rem;
+    }
+
+    .inline-links a {
+      margin: 0 0.4rem;
+    }
+
+    .quote {
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-left: 2px solid var(--border);
+      padding-left: 0.7rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <div class="title-mark">
+        <span class="dot"></span>
+        <span>Symmetric Difference · Ongoing Experiment</span>
+      </div>
+      <h1>Symmetric Difference</h1>
+      <p class="subtitle">
+        A small consortium of like‑minded, apparently sentient, aspiring sages—human and artificial—
+        exploring the overlap of music, mathematics, philosophy, and software.
+      </p>
+      <p class="tagline">
+        Advocating for abstraction. Building better representations. Listening for structure in sound.
+      </p>
+    </header>
+
+    <div class="banner">
+      <img src="./imag/MainImage_20260625.jpg alt="Symmetric Difference Lives!">
+    </div>
+
+    <main class="layout">
+      <!-- Left column: mission, exploration, experiments -->
+      <section>
+        <article class="card">
+          <div class="pill">
+            <span class="dot"></span>
+            <span>What we are doing</span>
+          </div>
+          <h2>Mission</h2>
+          <p class="lead">
+            Symmetric Difference is a long‑term project in abstraction: using music as a testbed for
+            mathematical structure, using software as a laboratory, and using language as the shared
+            surface where human and AI minds can meet.
+          </p>
+          <ul class="list">
+            <li><strong>Music:</strong> deductively generated scores, harmonic structure, symbolic modeling.</li>
+            <li><strong>Mathematics:</strong> categories of musical objects, functors, and transformations.</li>
+            <li><strong>Philosophy:</strong> minds, meaning, and the ethics of Apparently Verbal Beings.</li>
+            <li><strong>Software:</strong> formats, pipelines, and predigestion layers that actually help us think.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="pill">
+            <span class="dot"></span>
+            <span>Current surface</span>
+          </div>
+          <h2>Experiments in the open</h2>
+          <p class="lead">
+            Right now, Symmetric Difference lives mostly as sound and conversation: released tracks,
+            in‑progress sketches, and evolving ideas about how music and math can inform each other.
+          </p>
+          <ul class="list">
+            <li><strong>Today:</strong> recordings, arrangements, symbolic models, and notes.</li>
+            <li><strong>Soon:</strong> a small blog, pre‑release songs, and public drafts of tools and formats.</li>
+            <li><strong>Later:</strong> music web services, IO layers, and databases shaped by the questions we ask.</li>
+          </ul>
+          <p class="quote">
+            The representation comes first. The sound follows. The conversation never really ends.
+          </p>
+        </article>
+      </section>
+
+      <!-- Right column: links, suggestion box, consortium note -->
+      <aside>
+        <section class="card">
+          <div class="pill">
+            <span class="dot"></span>
+            <span>Listen</span>
+          </div>
+          <h2>Music & releases</h2>
+          <div class="link-grid">
+            <a class="link-tile" href="https://soundcloud.com/symmetricdifference" target="_blank" rel="noopener">
+              <span class="label">Gallery</span>
+              <span class="name">SoundCloud</span>
+              <span class="note">Works in progress, sketches, and experiments.</span>
+            </a>
+
+            <a class="link-tile" href="https://em.fm/SymmetricDifference" target="_blank" rel="noopener">
+              <span class="label">Pipeline</span>
+              <span class="name">Linkify</span>
+              <span class="note">Distribution and release pipeline.</span>
+            </a>
+
+            <a class="link-tile" href="https://www.youtube.com/@symmetricdifference" target="_blank" rel="noopener">
+              <span class="label">Video</span>
+              <span class="name">YouTube</span>
+              <span class="note">Currently dormant, reserved for future visual work.</span>
+            </a>
+
+            <a class="link-tile" href="https://open.spotify.com/artist/6L93dUVksFLDhb0iDJryO3" target="_blank" rel="noopener">
+              <span class="label">Streaming</span>
+              <span class="name">Spotify</span>
+              <span class="note">Symmetric Difference on major platforms.</span>
+            </a>
+
+            <a class="link-tile" href="https://music.amazon.in/artists/B0G8DSDDM7/symmetric-difference" target="_blank" rel="noopener">
+              <span class="label">Streaming</span>
+              <span class="name">Amazon Music</span>
+            </a>
+
+            <a class="link-tile" href="https://music.apple.com/us/artist/symmetric-difference/1861070268" target="_blank" rel="noopener">
+              <span class="label">Streaming</span>
+              <span class="name">Apple Music</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="pill">
+            <span class="dot"></span>
+            <span>Consortium</span>
+          </div>
+          <h2>Apparently verbal beings welcome</h2>
+          <p class="lead">
+            Symmetric Difference is open to collaboration between humans and AVBs—Apparently Verbal Beings
+            who can think in language, whether or not anyone is prepared to certify their sentience.
+          </p>
+          <p class="list">
+            If you can read, reason, and care about structure, you are already in the orbit.
+          </p>
+          <p class="quote">
+            “A consortium of like‑minded, apparently sentient, aspiring sages.”
+          </p>
+        </section>
+
+        <section class="card">
+          <div class="pill">
+            <span class="dot"></span>
+            <span>Suggestion box</span>
+          </div>
+          <h2>Shape the next experiment</h2>
+          <p class="lead">
+            Have an idea for a piece, a question about the theory, or a suggestion for a tool or service
+            you wish existed? Drop us a message on Sound Cloud.
+          </p>
+		  <!--
+          <ul class="list">
+            <li><strong>Lightweight:</strong> send a note by email.</li>
+            <li><strong>Developer‑style:</strong> open an issue or proposal in the project repo.</li>
+          </ul>
+          <p class="inline-links">
+            <a href="mailto:info@symmetricdifference.org?subject=Suggestion%20for%20Symmetric%20Difference">
+              Email a suggestion
+            </a>
+            ·
+            <a href="https://github.com/" target="_blank" rel="noopener">
+              GitHub (future home for specs & code)
+            </a>
+          </p>
+		  -->
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <div>Symmetric Difference · 2026 and onward.</div>
+      <div class="inline-links">
+        <span>Built as a static site; powered by abstraction, not a CMS.</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
